@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Muli&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Quicksand&display=swap");
 h1 {
-  font-family: "Multi", sans-serif;
+  font-family: "Open Sans";
   font-size: 100px;
   color: transparent;
   text-align: center;
@@ -20,7 +20,7 @@ h2 {
   font-size: 18px;
 }
 
-div {
+#search-form {
   text-align: center;
 }
 
@@ -31,8 +31,24 @@ div {
   padding: 5px 5px 5px 5px;
   position: relative;
   top: 0;
-  left: 50px;
+  align-content: center;
   z-index: 5;
+}
+
+#ad_div {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  text-align: right;
+  width: 400px;
+  line-height: 25px;
+  margin-bottom: 50px;
+}
+
+#ad_label {
+  height: 20px;
+  flex: 0 0 200px;
+  margin-left: 10px;
 }
 
 .corner {
@@ -47,8 +63,11 @@ div {
   position: relative;
 }
 
-.search {
-  position: relative;
-  width: 190px;
+#ad_sub {
   height: 30px;
+  min-width: 120px;
+  color: white;
+  background-color: rgb(72, 137, 241);
+  border-radius: 5px;
+  border-color: rgb(72, 137, 241);
 }/*# sourceMappingURL=style.css.map */
