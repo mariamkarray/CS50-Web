@@ -1,7 +1,9 @@
-from django.urls import path
-
+from django.urls import include, path, reverse
+# from the current directory 
 from . import views
 
 urlpatterns = [
-    path("", views.index, name="index")
+    # when someone visits the default route, run the index function (one of my views)
+    path("", views.index, name="index"),
+    path("/<str:title>", views.entry, name="entry")
 ]
