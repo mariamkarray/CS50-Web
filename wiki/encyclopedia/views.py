@@ -15,6 +15,10 @@ class NewPageForm(forms.Form):
     content = forms.CharField(widget=forms.Textarea(attrs={"class": "form-control mb-4",
                 "placeholder": "Content.."}))
 
+class EditForm(forms.Form):
+    content = forms.CharField(widget=forms.Textarea(attrs={"class": "form-control mb-4",
+                "placeholder": "Content.."}))
+                
 def newPage(request):
     if request.method == "POST":
         form = NewPageForm(request.POST)
@@ -82,15 +86,14 @@ def search(request):
     )
 def edit(request, title):
     if request.method == "POST":
-        form = NewPageForm(request.POST)
+        form = EditForm(request.POST)
         if form.is_valid():
-            title = form.cleaned_data.get("title")
             content = form.cleaned_data.get("content")
-            util.save_entry(title,content)
+            util.save_entry(title, content)
             return redirect("entry", title)
     entry = title
     content = util.get_entry(entry)
-    form = NewPageForm({"title":entry, "content":content})
+    form = EditForm({"content":content})
     return render(request, "encyclopedia/edit.html", {
             "title" : entry,
             "form": form
@@ -101,6 +104,7 @@ def entry(request, title):
         "title" : title,
          "entry" : markdown2.markdown(util.get_entry(title))
          })
+         
 def random(request):
     entries = util.list_entries()
     num = randrange(0, len(entries))
