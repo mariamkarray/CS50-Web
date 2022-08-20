@@ -19,19 +19,21 @@ class ListingForm(ModelForm):
             'title': '',
             'description': '',
             'bid': '',
-            'image': ''
+            'image': 'Image: (optional)'
         }
         widgets = {
             'title': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Title'}),
             'description': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Description'}),
-            'bid': forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Starting Bid'}),
-            'image': forms.URLInput(attrs={'class':'form-control', 'placeholder':'URL for The Image of Listing and/or a Category (optional)'})
+            'bid': forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Starting Bid'})
         }
 
 def index(request):
-    return render(request, "auctions/index.html")
+    return render(request, "auctions/index.html", {
+        "listings" : AuctionListing.objects.all()
+    })
 
 def login_view(request):
+    
     if request.method == "POST":
 
         # Attempt to sign user in
@@ -87,7 +89,7 @@ def listing(request):
     submitted = False
     if request.method == "POST":
         # request.POST takes whatever was in the input and passes it to the form
-        form = ListingForm(request.POST)
+        form = ListingForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             # redirect back to the page itself
