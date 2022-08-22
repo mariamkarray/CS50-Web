@@ -1,0 +1,32 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<h1>Listing: {{listing}}</h1>
+<div> <img src= "{{ listing.image.url }}", width = "800", length="500"> </div>
+</br>
+<div style="font-size: larger;"> {{listing.description}}</div>
+</br>
+<h2> ${{listing.bid}}</h2>
+
+<div> {{listing.numBids}} bid(s) so far.</div>
+{% if user.is_authenticated %}
+<form method="POST">
+    {% csrf_token %}
+    {{ form.bid }}
+</br>
+<div>
+    {% for message in messages %}
+    <div class="alert alert-success">
+        <a class="close" href="#" data-dismiss="alert">X</a>
+           {{ message }}
+    </div>
+    {% endfor %}
+</div>
+    <input type ="submit" value="Place Bid" class = "btn btn-dark">
+</form>
+</br>
+<a class="btn btn-primary btn-lg" href="{% url 'addToWatchlist' listing.id %}" role="button">Add item to your watchlist.</a>
+{% else %}
+<h3>Please login to bid.</h3>
+{% endif %}
+{% endblock %}

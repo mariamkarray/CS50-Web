@@ -4,17 +4,20 @@
     <h2>Active Listings</h2>
 
     {% for listing in listings %}
+    <div> <a class="link-dark" href="{% url 'listing-page' listing.id %}"> 
                 {% if listing.image %}
-                <div class="card flex-row"><img src= "{{ listing.image.url }}", width = "200", length="200">
+                <div class="card flex-row" ><img src= "{{ listing.image.url }}", width = "200", length="200">
                 {% endif %}
                 <div class = "card-body"> 
-                 <h3 class = "card-title">{{listing.title}} </h3>
-                <p> Price: ${{listing.bid}} </p>
-                <p> {{listing.description}}</p>
+                 <h3 class = "card-title"  > {{listing.title}} </h3>
+                <p class="card-text"> <strong> Price: </strong> ${{listing.bid}} 
+                <br/> {{listing.description}} </p>
+                </p>
+            </p>
+            </a>
             </div>
     </div>
    </div>
-
     {% endfor %}
 </div>
     TODO
