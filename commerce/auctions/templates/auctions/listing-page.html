@@ -2,17 +2,31 @@
 
 {% block body %}
 <h1>Listing: {{listing}}</h1>
+{% if listing.image %}
 <div> <img src= "{{ listing.image.url }}", width = "800", length="500"> </div>
 </br>
+{% endif %}
 <div style="font-size: larger;"> {{listing.description}}</div>
 </br>
+{% if closed %}
+    <h2> 
+        This listing is closed.
+    </h2>
+    {% if winner %}
+    <h2> 
+        Going once, going twice, sold! <br>
+        Congratulations, {{ user }}! you won this auction.
+        with the highest bid of {{ listing.bid }}$
+    </h2>
+    {% endif %}
+{% else %}
 <h2> ${{listing.bid}}</h2>
 
 <div> {{listing.numBids}} bid(s) so far.</div>
 {% if user.is_authenticated %}
 <form method="POST">
     {% csrf_token %}
-    {{ form.bid }}
+    {{ form.as_p }}
 </br>
 <div>
     {% for message in messages %}
@@ -25,8 +39,27 @@
     <input type ="submit" value="Place Bid" class = "btn btn-dark">
 </form>
 </br>
-<a class="btn btn-primary btn-lg" href="{% url 'addToWatchlist' listing.id %}" role="button">Add item to your watchlist.</a>
+{% if found == True %}
+    <a class="btn btn-primary btn-lg" href="{% url 'addToWatchlist' listing.id %}" role="button">Remove item from your watchlist.</a> <br>
+{% else %}
+    <a class="btn btn-primary btn-lg" href="{% url 'addToWatchlist' listing.id %}" role="button">Add item to your watchlist.</a> <br>
+{% endif %}
+
+{% if canClose %}
+<br>
+    <a class="btn btn-primary btn-lg" href="{% url 'close-listing' listing.id %}" role="button">Close listing</a> <br>
+    {% endif %}
+
 {% else %}
 <h3>Please login to bid.</h3>
 {% endif %}
+<br>
+{% endif %}
+<div style="font-size: larger" >Details: 
+    <ul >
+        <li> Listed by: {{ listing.owner }} </li>
+    </ul>
+    </div>
+</div>
+
 {% endblock %}
