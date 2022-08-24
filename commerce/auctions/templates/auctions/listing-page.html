@@ -23,6 +23,7 @@
 <h2> ${{listing.bid}}</h2>
 
 <div> {{listing.numBids}} bid(s) so far.</div>
+<br>
 {% if user.is_authenticated %}
 <form method="POST">
     {% csrf_token %}
@@ -36,7 +37,7 @@
     </div>
     {% endfor %}
 </div>
-    <input type ="submit" value="Place Bid" class = "btn btn-dark">
+    <input type ="submit" value="Place Bid" name="bid" class = "btn btn-dark">
 </form>
 </br>
 {% if found == True %}
@@ -54,7 +55,34 @@
 <h3>Please login to bid.</h3>
 {% endif %}
 <br>
+
+<hr>
+<h2> Add a comment</h2>
+<div>
+    {% if user.is_authenticated %}
+<form method="POST">
+    {% csrf_token %}
+    {{ commentForm.as_p }}
+    <input type ="submit" value="Add comment" name="comment" class = "btn btn-dark">
+</form>
+{% else %}
+    <h3>Please login to add a comment.</h3>
 {% endif %}
+</br>
+</div>
+{% if not listing.comments.all %}
+    No comments yet 
+{% else %}
+    {% for comment in listing.comments.all %}
+    <div class = "card-body">
+        <h3 class = "card-title" > {{comment.name}} </h3>
+        <p class="card-text">  {{ comment.text }} </p>
+        <p class="card-text"> <strong> Created </strong>{{comment.date_added}} <br> </p>
+    </div>
+    {% endfor %}
+{% endif %}
+{% endif %}
+<hr>
 <div style="font-size: larger" >Details: 
     <ul >
         <li> Listed by: {{ listing.owner }} </li>

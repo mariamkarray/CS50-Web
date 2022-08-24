@@ -12,8 +12,9 @@
                  <h3 class = "card-title"  > {{listing.title}} </h3>
                 <p class="card-text"> <strong> Price: </strong> ${{listing.bid}} 
                 <br/> {{listing.description}} </p>
-                <br/> <strong> Created </strong>{{listing.publication_date}}
-                </p>
+                <br/> <strong> Created </strong>{{listing.publication_date}} <br>
+                <a href="{% url 'category-view' listing.category %}"> <strong>Category: </strong>{{ listing.category }} </a> 
+            </p>
             </p>
             </a>
             </div>

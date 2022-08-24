@@ -3,6 +3,13 @@ from django.contrib.postgres.fields import ArrayField
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+# This class is made to avoid hard coding each category
+# instead we'll make a new model so we can add/edit/delete thos categories in the future
+class Categories(models.Model):
+    name = models.CharField(max_length=64)
+    def __str__(self):
+        return self.name
+
 class AuctionListing(models.Model):
     owner = models.ForeignKey('User', on_delete=models.CASCADE)
     title = models.CharField(max_length=64)
@@ -12,6 +19,7 @@ class AuctionListing(models.Model):
     numBids = models.IntegerField( default=0, blank=True)
     publication_date = models.DateTimeField(auto_now_add=True)
     closed = models.BooleanField(default=False)
+    category = models.CharField(max_length=64)
 
     def __str__(self):
         return self.title
@@ -30,4 +38,9 @@ class Bids(models.Model):
 
 
 class Comments(models.Model):
-    pass
+    listing = models.ForeignKey(AuctionListing, on_delete=models.CASCADE, related_name="comments")
+    name = models.CharField(max_length=64, blank=True)
+    text = models.TextField(blank=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return '%s - %s' % (self.listing.title, self.name)
