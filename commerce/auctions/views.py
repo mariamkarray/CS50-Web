@@ -31,7 +31,7 @@ class ListingForm(ModelForm):
         }
         widgets = {
             'title': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Title'}),
-            'category': forms.Select(choices=categories),
+            'category': forms.Select(choices=categories, attrs={'class':'form-control'}),
             'description': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Description'}),
             'bid': forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Bid'})
         }
@@ -260,3 +260,5 @@ def categoryView(request, cat):
         'category_listings': category_listings
         
     })
+def welcome(request):
+    return render(request, "auctions/welcome.html")

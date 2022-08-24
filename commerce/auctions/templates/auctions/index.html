@@ -1,8 +1,6 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <h2>Active Listings</h2>
-
     {% for listing in listings %}
     <div> <a class="link-dark" href="{% url 'listing-page' listing.id %}"> 
                 {% if listing.image %}
@@ -14,6 +12,7 @@
                 <br/> {{listing.description}} </p>
                 <br/> <strong> Created </strong>{{listing.publication_date}} <br>
                 <a href="{% url 'category-view' listing.category %}"> <strong>Category: </strong>{{ listing.category }} </a> 
+                <hr style="height:0.5px; width:50%; border-width:0; color:red; background-color:black">
             </p>
             </p>
             </a>
@@ -22,5 +21,4 @@
    </div>
     {% endfor %}
 </div>
-    TODO
 {% endblock %}
