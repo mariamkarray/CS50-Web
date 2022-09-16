@@ -4,3 +4,8 @@ textarea {
 span {
     font-weight: normal;
 }
+.date {
+    float: right;
+    width: 20%;
+    opacity: 0.5;
+}

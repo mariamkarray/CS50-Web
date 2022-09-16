@@ -81,6 +81,7 @@ else if (mailbox === 'archive') {
     .then(emails => {
       emails.forEach(email => {
         const element = show_inbox_helper(email);
+        
         element.addEventListener('click', function() {
         view_mail(email, email.id);
         });
@@ -94,7 +95,6 @@ else if (mailbox === 'archive') {
   .then(response => response.json())
   .then(emails => {
     emails.forEach(email => {
-      console.log(email);
       const element = show_inbox_helper(email);
       element.addEventListener('click', function() {
       view_mail(email, email.id);
@@ -108,9 +108,15 @@ else if (mailbox === 'archive') {
 function show_inbox_helper(email) {
   // create div that contains each email
   const element = document.createElement('div');
+ 
   element.innerHTML = `&nbsp; <strong> ${email.sender} </strong> 	&nbsp;&nbsp;&nbsp;&nbsp; ${email.subject}`;
   element.style.border = "1px solid rgba(1, 1, 1, .3)";
   element.style.padding = "7px";
+  
+  const date = document.createElement('pr');
+  date.className = "date";
+  date.innerHTML=`${email.timestamp}`;
+  element.appendChild(date);
   if (email.read)
       element.style.backgroundColor = "#F8F8F8";
   document.querySelector("#emails-view").append(element);
