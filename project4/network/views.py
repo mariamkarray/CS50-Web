@@ -3,12 +3,40 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.forms import ModelForm
+from .models import User, Post
+from django import forms
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
-from .models import User
+class PostForm(ModelForm):
+    class Meta:
+        ordering = ['-created_at']
+        model = Post
+        fields = ('body',)
+        labels = {
+            'body': ''
+        }
+        widgets = {
+            'body' : forms.Textarea(attrs={'class':'form-control', 'rows' : '3' ,'placeholder':"What's happening?"})
+        }
 
 
 def index(request):
-    return render(request, "network/index.html")
+    currentUser = request.user
+    if request.method == "POST":
+        form = PostForm(request.POST)
+        if form.is_valid():
+            form.instance.author = currentUser
+            form.save()
+            return HttpResponseRedirect(reverse("index"))
+    else:
+        form = PostForm
+    
+    return render(request, "network/index.html", {
+        "posts" : Post.objects.all(),
+        "form" : form
+    })
 
 
 def login_view(request):

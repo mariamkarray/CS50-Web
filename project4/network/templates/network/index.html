@@ -1,5 +1,31 @@
 {% extends "network/layout.html" %}
-
+{% load static %}
 {% block body %}
-    TODO
+{% if user.is_authenticated %}
+<button class="btn" style="font-size: 200%"><i class="fa fa-home"></i> Home</button>
+   <form action= "" method = "POST" >
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type ="submit" value="Post" class = "btn btn-info">
+   </form>
+{% endif %}
+<br>
+{% for post in posts %}
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{ post.author }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{ post.created_at }}</h6>
+            <p class="card-text">{{ post.body }}</p>
+            <button class="card-link" class="btn" style="color:red"><i class="fa fa-heart"></i> 0</button>
+            {% if post.author == request.user %}
+            <a href="#" class="card-link" >Edit</a>
+            {% endif %}
+        </div>
+    </div>
+{% endfor %}
+
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'network/network.js' %}"></script>
 {% endblock %}
